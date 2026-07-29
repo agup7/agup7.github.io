@@ -1,0 +1,37 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Socials from "./Socials.astro";
+import IconRss from "@/assets/icons/IconRss.svg";
+import LinkButton from "./LinkButton.astro";
+import { useTranslations } from "@/i18n";
+
+type Props = {
+  noMarginTop?: boolean;
+} & HTMLAttributes<"footer">;
+
+const { noMarginTop = false, class: className, ...attrs } = Astro.props;
+
+const t = useTranslations(Astro.currentLocale);
+const currentYear = new Date().getFullYear();
+const rssUrl = `${import.meta.env.BASE_URL.replace(/\/?$/, "/")}rss.xml`;
+---
+
+<footer
+  class:list={["app-layout", { "mt-auto": !noMarginTop }, className]}
+  {...attrs}
+>
+  <div
+    class="border-border flex flex-col items-center justify-between border-t py-6 sm:flex-row-reverse sm:py-4"
+  >
+    <div class="flex flex-wrap items-center gap-1">
+      <Socials />
+      <LinkButton href={rssUrl} class="p-2 hover:rotate-6 sm:p-1" title="RSS Feed">
+        <IconRss class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 sm:scale-110" />
+        <span class="sr-only">RSS Feed</span>
+      </LinkButton>
+    </div>
+    <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row">
+      <span>&#169; {currentYear} Ankit Gupta</span>
+    </div>
+  </div>
+</footer>
